@@ -66,10 +66,10 @@
                     <td th:text="${drug.banned ? 'Yes' : 'No'}"></td>
                     <td>
                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateDrugModal"
-                                th:attr="data-drug-id=${drug.id}">Update</button>
+                                th:attr="data-drug-id=${drug.id}" >Update</button>
                         <form th:action="@{/drugs/deactivate}" method="post" style="display: inline;">
                             <input type="hidden" name="id" th:value="${drug.id}" />
-                            <button type="submit" class="btn btn-sm btn-danger"
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to deactivate this drug?')"
                                     th:disabled="${!drug.active}">Deactivate</button>
                         </form>
                         <form th:action="@{/drugs/delete}" method="post" style="display: inline;">
@@ -116,7 +116,7 @@
                             <label for="totalQuantity" class="form-label">Total Quantity</label>
                             <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Drug</button>
+                        <button type="submit" class="btn btn-primary" onclick= "add()">Add Drug</button>
                     </form>
                 </div>
             </div>
@@ -134,14 +134,7 @@
                 <div class="modal-body">
                     <form th:action="@{/drugs/update}" method="post">
                         <input type="hidden" id="updateId" name="id">
-                        <div class="mb-3">
-                            <label for="updateName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="updateName" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="updateDescription" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="updateDescription" name="description" required>
-                        </div>
+                       
                         <div class="mb-3">
                             <label for="updateSupplierName" class="form-label">Supplier Name</label>
                             <input type="text" class="form-control" id="updateSupplierName" name="supplierName" required>
@@ -150,10 +143,7 @@
                             <label for="updatePrice" class="form-label">Price</label>
                             <input type="number" class="form-control" id="updatePrice" name="price" step="0.01" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="updateExpiryDate" class="form-label">Expiry Date</label>
-                            <input type="date" class="form-control" id="updateExpiryDate" name="expiryDate" required>
-                        </div>
+                      
                         <div class="mb-3">
                             <label for="updateTotalQuantity" class="form-label">Total Quantity</label>
                             <input type="number" class="form-control" id="updateTotalQuantity" name="totalQuantity" required>
@@ -166,7 +156,7 @@
                             <label for="updateBannedReason" class="form-label">Banned Reason</label>
                             <textarea class="form-control" id="updateBannedReason" name="bannedReason" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Drug</button>
+                        <button type="submit" class="btn btn-primary" onclick="update()">Update Drug</button>
                     </form>
                 </div>
             </div>
@@ -192,6 +182,12 @@
                 document.getElementById('updateBannedReason').value = selectedDrug.bannedReason;
             }
         });
+		function add(){
+			alert("Drug Successfully Added!");
+		}
+		function update(){
+				alert("Drug Successfully Updated!");
+			}
     </script>
 </body>
 </html>

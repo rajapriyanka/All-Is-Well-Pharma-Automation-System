@@ -17,13 +17,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#addDrugModal">Add Drug</a>
+                        <a class="nav-link" href="drug-list.html">Drug Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stock-management.html">Stock Management</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#supplierManagement">Supplier Management</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#stockManagement">Stock Management</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#prescriptionBilling">Prescription &amp; Billing</a>
@@ -35,51 +35,60 @@
             </div>
         </div>
     </nav>
-
-    <div class="container mt-4">
-        <h2>Drug List</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Expiry Date</th>
-                    <th>Supplier</th>
-                    <th>Total Quantity</th>
-                    <th>Status</th>
-                    <th>Banned</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="drug : ${drugs}">
-                    <td th:text="${drug.id}"></td>
-                    <td th:text="${drug.name}"></td>
-                    <td th:text="${drug.description}"></td>
-                    <td th:text="${drug.price}"></td>
-                    <td th:text="${#temporals.format(drug.expiryDate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${drug.supplierName}"></td>
-                    <td th:text="${drug.totalQuantity}"></td>
-                    <td th:text="${drug.active ? 'Active' : 'Inactive'}"></td>
-                    <td th:text="${drug.banned ? 'Yes' : 'No'}"></td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateDrugModal"
-                                th:attr="data-drug-id=${drug.id}" >Update</button>
-                        <form th:action="@{/drugs/deactivate}" method="post" style="display: inline;">
-                            <input type="hidden" name="id" th:value="${drug.id}" />
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to deactivate this drug?')"
-                                    th:disabled="${!drug.active}">Deactivate</button>
-                        </form>
-                        <form th:action="@{/drugs/delete}" method="post" style="display: inline;">
-                            <input type="hidden" name="id" th:value="${drug.id}" />
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this drug?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container mt-4" id="drugManagement">
+        <h2>Drug Management</h2>
+        
+        <div class="mb-3">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDrugModal">
+                Add New Drug
+            </button>
+        </div>
+        
+        <div class="container mt-4">
+            <h3>Drug List</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Expiry Date</th>
+                        <th>Supplier</th>
+                        <th>Total Quantity</th>
+                        <th>Status</th>
+                        <th>Banned</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="drug : ${drugs}">
+                        <td th:text="${drug.id}"></td>
+                        <td th:text="${drug.name}"></td>
+                        <td th:text="${drug.description}"></td>
+                        <td th:text="${drug.price}"></td>
+                        <td th:text="${#temporals.format(drug.expiryDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${drug.supplierName}"></td>
+                        <td th:text="${drug.totalQuantity}"></td>
+                        <td th:text="${drug.active ? 'Active' : 'Inactive'}"></td>
+                        <td th:text="${drug.banned ? 'Yes' : 'No'}"></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateDrugModal"
+                                    th:attr="data-drug-id=${drug.id}">Update</button>
+                            <form th:action="@{/drugs/deactivate}" method="post" style="display: inline;">
+                                <input type="hidden" name="id" th:value="${drug.id}" />
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to deactivate this drug?')"
+                                        th:disabled="${!drug.active}">Deactivate</button>
+                            </form>
+                            <form th:action="@{/drugs/delete}" method="post" style="display: inline;">
+                                <input type="hidden" name="id" th:value="${drug.id}" />
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this drug?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Add Drug Modal -->
@@ -116,7 +125,7 @@
                             <label for="totalQuantity" class="form-label">Total Quantity</label>
                             <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" required>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick= "add()">Add Drug</button>
+                        <button type="submit" class="btn btn-primary" onclick="add()">Add Drug</button>
                     </form>
                 </div>
             </div>
@@ -134,7 +143,6 @@
                 <div class="modal-body">
                     <form th:action="@{/drugs/update}" method="post">
                         <input type="hidden" id="updateId" name="id">
-                       
                         <div class="mb-3">
                             <label for="updateSupplierName" class="form-label">Supplier Name</label>
                             <input type="text" class="form-control" id="updateSupplierName" name="supplierName" required>
@@ -143,7 +151,6 @@
                             <label for="updatePrice" class="form-label">Price</label>
                             <input type="number" class="form-control" id="updatePrice" name="price" step="0.01" required>
                         </div>
-                      
                         <div class="mb-3">
                             <label for="updateTotalQuantity" class="form-label">Total Quantity</label>
                             <input type="number" class="form-control" id="updateTotalQuantity" name="totalQuantity" required>
@@ -182,12 +189,15 @@
                 document.getElementById('updateBannedReason').value = selectedDrug.bannedReason;
             }
         });
-		function add(){
-			alert("Drug Successfully Added!");
-		}
-		function update(){
-				alert("Drug Successfully Updated!");
-			}
+
+        function add() {
+            alert("Drug Successfully Added!");
+        }
+
+        function update() {
+            alert("Drug Successfully Updated!");
+        }
     </script>
 </body>
 </html>
+

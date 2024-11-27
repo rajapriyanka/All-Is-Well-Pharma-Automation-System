@@ -51,9 +51,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Description</th>
                         <th>Price</th>
-                        <th>Expiry Date</th>
                         <th>Supplier</th>
                         <th>Total Quantity</th>
                         <th>Status</th>
@@ -65,9 +63,7 @@
                     <tr th:each="drug : ${drugs}">
                         <td th:text="${drug.id}"></td>
                         <td th:text="${drug.name}"></td>
-                        <td th:text="${drug.description}"></td>
                         <td th:text="${drug.price}"></td>
-                        <td th:text="${#temporals.format(drug.expiryDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${drug.supplierName}"></td>
                         <td th:text="${drug.totalQuantity}"></td>
                         <td th:text="${drug.active ? 'Active' : 'Inactive'}"></td>
@@ -106,20 +102,12 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="description" name="description" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="supplierName" class="form-label">Supplier Name</label>
                             <input type="text" class="form-control" id="supplierName" name="supplierName" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
                             <input type="number" class="form-control" id="price" name="price" step="0.01" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="expiryDate" class="form-label">Expiry Date</label>
-                            <input type="date" class="form-control" id="expiryDate" name="expiryDate" required>
                         </div>
                         <div class="mb-3">
                             <label for="totalQuantity" class="form-label">Total Quantity</label>
